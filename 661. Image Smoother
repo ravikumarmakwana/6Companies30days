@@ -1,0 +1,43 @@
+public class Solution {
+    public int[][] ImageSmoother(int[][] img) {
+        int rows = img.Length;
+        int cols = img[0].Length;
+
+        int[][] result = new int[rows][];
+        for(int row = 0; row < rows; row++)
+        {
+            result[row] = new int[cols];
+        }
+
+        int[][] directions = [
+            [-1, -1], [-1, 0], [-1, 1],
+            [0, -1], [0, 0], [0, 1],
+            [1, -1], [1, 0], [1, 1]
+        ];
+
+        for(int row = 0; row < rows; row++)
+        {
+            for(int col = 0; col < cols; col++)
+            {
+                int sum = 0, count = 0;
+                foreach(int[] dir in directions)
+                {
+                    int x = dir[0] + row;
+                    int y = dir[1] + col;
+
+                    if(x >= 0 && x < rows && y >= 0 && y < cols)
+                    {
+                        count++;
+                        sum += img[x][y];
+                    }
+                }
+                result[row][col] = sum / count;
+            }
+        }
+
+        return result;
+    }
+}
+
+// Time Complexity: O(n * m * 9) = O(n * m)
+// Space Complexity: O(1)
