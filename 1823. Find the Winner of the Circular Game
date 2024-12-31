@@ -1,0 +1,21 @@
+public class Solution {
+    public int FindTheWinner(int n, int k) {
+        List<int> friends = new();
+        for(int i = 1; i <= n; i++)
+        {
+            friends.Add(i);
+        }
+
+        int index = 0;
+        while(friends.Count != 1)
+        {
+            index = (index + k - 1) % friends.Count;
+            friends.RemoveAt(index);
+        }
+
+        return friends[0];
+    }
+}
+
+// Time Complexity: O(N * K)
+// Space Complexity: O(N)
