@@ -1,0 +1,21 @@
+public class Solution {
+    public IList<string> FindRepeatedDnaSequences(string s) {
+        HashSet<string> repeated = new HashSet<string>();
+
+        int n = s.Length;
+        HashSet<string> seen = new();
+        for(int i = 0; i <= n - 10; i++)
+        {
+            string subString = s.Substring(i, 10);
+            if(!seen.Add(subString))
+            {
+                repeated.Add(subString);
+            }
+        }
+
+        return repeated.ToList();
+    }
+}
+
+// Time Complexity: O(N)
+// Space Complexity: O(N)
