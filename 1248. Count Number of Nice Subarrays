@@ -1,0 +1,24 @@
+public class Solution {
+    public int NumberOfSubarrays(int[] nums, int k) {
+        int count = 0;
+
+        Dictionary<int, int> dictionary = new();
+        int sum = 0;
+        dictionary.Add(sum, 1);
+
+        foreach(int num in nums)
+        {
+            sum += num % 2;
+            if(dictionary.ContainsKey(sum - k))
+            {
+                count += dictionary[sum - k];
+            }
+            dictionary[sum] = dictionary.GetValueOrDefault(sum, 0) + 1;
+        }
+
+        return count;
+    }
+}
+
+// Time Complexity: O(N)
+// Space Complexity: O(N)
