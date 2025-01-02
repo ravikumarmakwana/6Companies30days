@@ -1,0 +1,24 @@
+public class Solution {
+    public void WiggleSort(int[] nums) {
+        int n = nums.Length;
+        if(n <= 1)
+        {
+            return;
+        }
+
+        Array.Sort(nums);
+        int[] arr = new int[n];
+        int j = 1; 
+        for(int i = n - 1; i >= 0; i--)
+        {
+            arr[j] = nums[i];
+            j += 2;
+            if(j >= n)
+            {
+                j = 0;
+            }
+        }
+
+        Array.Copy(arr, 0, nums, 0, n);
+    }
+}
