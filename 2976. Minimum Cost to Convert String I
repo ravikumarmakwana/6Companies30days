@@ -1,0 +1,55 @@
+public class Solution {
+
+    private readonly int INF = int.MaxValue;
+    
+    public long MinimumCost(string source, string target, char[] original, char[] changed, int[] cost) {
+        int n = source.Length;
+        int m = original.Length;
+
+        int[,] distance = new int[26, 26];
+        for(int i = 0; i < 26; i++)
+        {
+            for(int j = 0; j < 26; j++)
+            {
+                distance[i, j] = i == j ? 0 : INF;
+            }
+        }
+
+        for(int i = 0; i < m; i++)
+        {
+            int u = original[i] - 'a';
+            int v = changed[i] - 'a';
+            distance[u, v] = Math.Min(distance[u, v], cost[i]);
+        }
+
+        for(int k = 0; k < 26; k++)
+        {
+            for(int i = 0; i < 26; i++)
+            {
+                for(int j = 0; j < 26; j++)
+                {
+                    if(distance[i, k] < INF && distance[k, j] < INF)
+                    {
+                        distance[i, j] = Math.Min(
+                            distance[i, j],
+                            distance[i, k] + distance[k, j]
+                        );
+                    }
+                }
+            }
+        }
+
+        long totalCost = 0;
+        for(int i = 0; i < n; i++)
+        {
+            int u = source[i] - 'a';
+            int v = target[i] - 'a';
+            if(distance[u, v] == INF)
+            {
+                return -1;
+            }
+            totalCost += distance[u, v];
+        }
+        return totalCost; 
+    }
+}
