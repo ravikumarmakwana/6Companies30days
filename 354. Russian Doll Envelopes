@@ -1,0 +1,48 @@
+public class Solution {
+    public int MaxEnvelopes(int[][] envelopes) {
+        envelopes = envelopes
+            .OrderBy(e => e[0])
+            .ThenByDescending(e => e[1])
+            .ToArray();
+
+        int[] heights = envelopes.Select(e => e[1]).ToArray();
+
+        return LengthOfLIS(heights);
+    }
+
+    private int LengthOfLIS(int[] nums) {
+        List<int> list = new();
+        foreach(int num in nums)
+        {
+            if(list.Count == 0 || list[^1] < num)
+            {
+                list.Add(num);
+            }
+            else
+            {
+                list[LowerBound(list, num)] = num;
+            }
+        }
+        return list.Count;
+    }
+
+    private int LowerBound(List<int> list, int target)
+    {
+        int low = 0, high = list.Count - 1;
+        int result = -1;
+        while(low <= high)
+        {
+            int mid = low + (high - low) / 2;
+            if(list[mid] >= target)
+            {
+                result = mid;
+                high = mid - 1;
+            }
+            else
+            {
+                low = mid + 1;
+            }
+        }
+        return result;
+    }
+}
