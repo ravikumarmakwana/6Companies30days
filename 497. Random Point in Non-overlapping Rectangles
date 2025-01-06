@@ -1,0 +1,35 @@
+public class Solution {
+    private readonly int[][] _rects;
+    private readonly int[] _areas;
+    private readonly Random _rand = new Random();
+
+    public Solution(int[][] rects) {
+        _rects = rects;
+        _areas = new int[rects.Length];
+        int totalArea = 0;
+        for (int i = 0; i < rects.Length; i++)
+        {
+            int area = (rects[i][2] - rects[i][0] + 1) * (rects[i][3] - rects[i][1] + 1);
+            totalArea += area;
+            _areas[i] = totalArea;
+        }
+    }
+    
+    public int[] Pick() {
+        int randArea = _rand.Next(_areas.Last()) + 1;
+        int index = Array.BinarySearch(_areas, randArea);
+        if (index < 0)
+            index = ~index;
+
+        int[] rect = _rects[index];
+        int x = _rand.Next(rect[0], rect[2] + 1);
+        int y = _rand.Next(rect[1], rect[3] + 1);
+        return new int[] { x, y };
+    }
+}
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution obj = new Solution(rects);
+ * int[] param_1 = obj.Pick();
+ */
