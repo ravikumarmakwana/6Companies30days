@@ -1,0 +1,11 @@
+public class Solution {
+    public string ConvertToTitle(int columnNumber) {
+        StringBuilder result = new();
+        while(columnNumber > 0)
+        {
+            result.Insert(0, (char)(((columnNumber - 1) % 26) + 'A'));
+            columnNumber = (columnNumber - 1) / 26;
+        }
+        return result.ToString();
+    }
+}
