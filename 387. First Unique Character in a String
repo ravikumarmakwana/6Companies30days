@@ -1,0 +1,19 @@
+public class Solution {
+    public int FirstUniqChar(string s) {
+        Dictionary<char, int> dictionary = new();
+        foreach(char ch in s)
+        {
+            dictionary[ch] = dictionary.GetValueOrDefault(ch, 0) + 1;
+        }
+
+        int n = s.Length;
+        for(int i = 0; i < n; i++)
+        {
+            if(dictionary[s[i]] == 1)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+}
