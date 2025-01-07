@@ -1,0 +1,49 @@
+public class Solution {
+    public int ShoppingOffers(IList<int> price, IList<IList<int>> special, IList<int> needs) {
+        return ShoppingOffers(price, special, needs, new());
+    }
+
+    private int ShoppingOffers(IList<int> prices, IList<IList<int>> specialOffers, IList<int> needs, Dictionary<string, int> dp)
+    {
+        string key = string.Join(",", needs);
+        if(dp.ContainsKey(key))
+        {
+            return dp[key];
+        }
+
+        int sum = GetTotalPrice(prices, needs);
+        int n = needs.Count();
+        foreach(IList<int> offer in specialOffers)
+        {
+            int j = 0;
+            List<int> updatedNeeds = needs.ToList();
+            while(j < n)
+            {
+                int diff = updatedNeeds[j] - offer[j];
+                if(diff < 0)
+                {
+                    break;
+                }
+                updatedNeeds[j] = diff;
+                j++;
+            }
+            if(j == n)
+            {
+                sum = Math.Min(sum, offer[j] + ShoppingOffers(prices, specialOffers, updatedNeeds, dp));
+            }
+        }
+        dp[key] = sum;
+
+        return dp[key];
+    }
+
+    private int GetTotalPrice(IList<int> prices, IList<int> needs)
+    {
+        int sum = 0, n = needs.Count();
+        for(int i = 0; i < n; i++)
+        {
+            sum += prices[i] * needs[i];
+        }
+        return sum;
+    }
+}
