@@ -1,0 +1,25 @@
+public void linkdelete(Node head, int n, int m) {
+        // your code here
+        while (head != null) 
+        {
+        
+            for (int i = 1; i < m && head != null; i++) 
+            {
+                head = head.next;
+            }
+    
+            if (head == null) 
+            {
+                break;
+            }
+    
+            Node temp = head.next;
+            for (int i = 0; i < n && temp != null; i++) 
+            {
+                temp = temp.next;
+            }
+    
+            head.next = temp;
+            head = temp;
+        }
+    }
