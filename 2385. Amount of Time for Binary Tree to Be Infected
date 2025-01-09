@@ -1,0 +1,80 @@
+public class Solution {
+    public int AmountOfTime(TreeNode root, int start) {
+        Dictionary<int, List<int>> graph = BuildGraph(root);
+
+        int timeToBurn = 0;
+        Queue<int> queue = new();
+        HashSet<int> visited = new();
+
+        queue.Enqueue(start);
+        visited.Add(start);
+
+        while (queue.Count > 0) 
+        {
+            int n = queue.Count;
+            bool hasNextLevel = false;
+
+            for (int i = 0; i < n; i++) 
+            {
+                int u = queue.Dequeue();
+                if (!graph.ContainsKey(u)) continue;
+
+                foreach (int v in graph[u]) 
+                {
+                    if (visited.Add(v)) {
+                        queue.Enqueue(v);
+                        hasNextLevel = true;
+                    }
+                }
+            }
+
+            if (hasNextLevel)
+            {
+                timeToBurn++;
+            }
+        }
+
+        return timeToBurn;
+    }
+
+    private Dictionary<int, List<int>> BuildGraph(TreeNode root) 
+    {
+        Dictionary<int, List<int>> graph = new();
+        Queue<TreeNode> queue = new();
+
+        queue.Enqueue(root);
+        while (queue.Count > 0) 
+        {
+            TreeNode node = queue.Dequeue();
+            
+            if (node.left != null) 
+            {
+                AddEdge(graph, node, node.left);
+                queue.Enqueue(node.left);
+            }
+            if (node.right != null) 
+            {
+                AddEdge(graph, node, node.right);
+                queue.Enqueue(node.right);
+            }
+        }
+
+        return graph;
+    }
+
+    private void AddEdge(Dictionary<int, List<int>> graph, TreeNode node1, TreeNode node2) 
+    {
+        if (!graph.ContainsKey(node1.val)) 
+        {
+            graph[node1.val] = new List<int>();
+        }
+
+        if (!graph.ContainsKey(node2.val)) 
+        {
+            graph[node2.val] = new List<int>();
+        }
+
+        graph[node1.val].Add(node2.val);
+        graph[node2.val].Add(node1.val);
+    }
+}
