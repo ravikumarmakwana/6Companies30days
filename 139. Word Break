@@ -1,0 +1,62 @@
+public class Solution {
+    public bool WordBreak(string s, IList<string> wordDict) {
+        TrieNode root = new();
+        foreach(string word in wordDict)
+        {
+            Insert(root, word);
+        }
+
+        int n = s.Length;
+        bool[] dp = new bool[n + 1];
+        dp[0] = true;
+
+        for(int i = 0; i < n; i++)
+        {
+            if(dp[i])
+            {
+                int j = i;
+                TrieNode tempRoot = root;
+                while(j < n)
+                {
+                    if(tempRoot == null)
+                    {
+                        break;
+                    }
+                    tempRoot = tempRoot.Childs[s[j] - 'a'];
+                    if(tempRoot != null && tempRoot.IsEndOfWord)
+                    {
+                        dp[j + 1] = true;
+                    }
+                    j++;
+                }
+            }
+        }
+
+        return dp[n];
+    }
+
+    private void Insert(TrieNode root, string key)
+    {
+        foreach(char ch in key)
+        {
+            if(root.Childs[ch - 'a'] == null)
+            {
+                root.Childs[ch - 'a'] = new();
+            }
+            root = root.Childs[ch - 'a'];
+        }
+        root.IsEndOfWord = true;
+    }
+}
+
+public class TrieNode
+{
+    public TrieNode[] Childs { get; set; }
+    public bool IsEndOfWord { get; set; }
+
+    public TrieNode()
+    {
+        Childs = new TrieNode[26];
+        IsEndOfWord = false;
+    }
+}
