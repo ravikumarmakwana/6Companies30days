@@ -1,0 +1,22 @@
+public class Solution {
+    public int FindContentChildren(int[] g, int[] s) {
+        Array.Sort(g);
+        Array.Sort(s);
+
+        int n = g.Length, m = s.Length;
+        int l = 0, r = 0, count = 0;
+        while(l < n && r < m)
+        {
+            if(g[l] <= s[r])
+            {
+                l++;
+                r++;
+            }
+            else
+            {
+                r++;
+            }
+        }
+        return l;
+    }
+}
